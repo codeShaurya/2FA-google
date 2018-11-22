@@ -1,0 +1,11 @@
+{
+  "name": "2FA-google",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:codeShaurya/2FA-google.git",
+  "author": "Shubham Maurya <code.shaurya@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "base32": "^0.0.6"
+  }
+}
