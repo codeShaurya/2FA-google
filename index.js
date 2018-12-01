@@ -1,25 +1,19 @@
 const crypto = require("crypto");
 const { key } = require("./secret.js");
-var base32 = require("base32");
 
 const originalSecret = key.replace(/ /g, "").toUpperCase();
-const secret = base32.decode(originalSecret);
-// console.log(secret);
+const timestamp = Math.floor(Date.now() / 30000);
+console.log(timestamp);       // Time stamp is correct.
 
-const dateTime = Math.floor(Date.now() / 1000);
-const timestamp = Math.floor(dateTime / 30);
-// console.log(timestamp);
+const secret = require("base32.js").decode(key);
+const decodedKey = secret + "";
+console.log(`Decoded string is : ${decodedKey}`);     //Base32 decode is correct
 
-const newSecret = secret + timestamp;
+const newSecret = decodedKey + timestamp;
+console.log(`New secret is : ${newSecret}`);
 
-const shasumFirst = crypto.createHash("sha1");
-const hashEncoded = shasumFirst.update(newSecret, "utf-8");
-const hash = hashEncoded.digest("hex");
-
-const secretLast = secret + hash;
-
-const shasumSecond = crypto.createHash("sha1");
-const hashEncodedSecond = shasumSecond.update(secretLast, "utf-8");
-const hashSecond = hashEncodedSecond.digest("hex");
-
-console.log(hashSecond);
+const hash = crypto
+  .createHmac("sha1", newSecret)
+  .update(newSecret)
+  .digest("hex");
+console.log(hash)
